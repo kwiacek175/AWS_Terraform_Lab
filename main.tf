@@ -11,14 +11,14 @@ resource "aws_sns_topic" "topic" {
 }
 
 module "ingest" {
-  source = "./modules/lambda"
+  source     = "./modules/lambda"
   name       = "order-ingest-terraform-259378"
   role       = data.aws_iam_role.lab_role.arn
   source_dir = "${path.module}/functions/ingest"
 }
 
 module "validator" {
-  source = "./modules/lambda"
+  source     = "./modules/lambda"
   name       = "order-validator-terraform-259378"
   role       = data.aws_iam_role.lab_role.arn
   source_dir = "${path.module}/functions/validator"
@@ -26,7 +26,7 @@ module "validator" {
 
 
 module "processor" {
-  source = "./modules/lambda"
+  source     = "./modules/lambda"
   name       = "order-processor-terraform-259378"
   role       = data.aws_iam_role.lab_role.arn
   source_dir = "${path.module}/functions/processor"
