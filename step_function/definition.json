@@ -1,0 +1,31 @@
+{
+  "Comment": "terraform-order-pipeline",
+  "StartAt": "ValidateOrder",
+  "States": {
+    "ValidateOrder": {
+      "Type": "Task",
+      "Resource": "${validator_arn}",
+      "Next": "CheckValidation"
+    },
+    "CheckValidation": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.valid",
+          "BooleanEquals": true,
+          "Next": "ProcessOrder"
+        }
+      ],
+      "Default": "OrderRejected"
+    },
+    "ProcessOrder": {
+      "Type": "Task",
+      "Resource": "${processor_arn}",
+      "End": true
+    },
+    "OrderRejected": {
+      "Type": "Fail",
+      "Error": "ValidationFailed"
+    }
+  }
+}
